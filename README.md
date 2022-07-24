@@ -19,8 +19,6 @@ None as of now.
 
 You can see the full change log in the [CHANGELOG.md](CHANGELOG.md) file.
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
 Initial release - real-time linting support for YAML front matter in Markdown files, using the [yaml-fm-Lint](https://github.com/leneti/yaml-fm-lint) package.
