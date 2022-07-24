@@ -203,7 +203,7 @@ export function activate(context: vscode.ExtensionContext) {
       timeout = undefined;
     }
     if (throttle) {
-      timeout = setTimeout(updateDecorations, 200);
+      timeout = setTimeout(updateDecorations, 100);
     } else {
       updateDecorations();
     }
