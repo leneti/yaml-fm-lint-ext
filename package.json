@@ -1,4 +1,5 @@
 {
+  "author": "Dominykas Gudauskas <leneti>",
   "name": "yaml-fm-lint",
   "displayName": "YAML FM Lint",
   "description": "A Markdown YAML front matter linter extension for VS Code",
@@ -37,5 +38,13 @@
   },
   "dependencies": {
     "yaml-fm-lint": "^1.5.6"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leneti/yaml-fm-lint-ext.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leneti/yaml-fm-lint-ext/issues"
+  },
+  "homepage": "https://github.com/leneti/yaml-fm-lint-ext#readme"
 }
