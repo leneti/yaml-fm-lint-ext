@@ -7,7 +7,7 @@ The extension is using the [yaml-fm-lint](https://github.com/leneti/yaml-fm-lint
 
 ## Features
 
-As with the main linting package itself, this extension is quick to install and configure. If there is a `.yaml-fm-lint.json` configuration file in the root directory, the extension will use it.
+As with the main linting package itself, this extension is quick to install and configure. If there is a `.yaml-fm-lint.json` or `.yaml-fm-lint.js` configuration file in the directory of the linted file, the extension will use it.
 
 ---
 
@@ -18,7 +18,3 @@ None as of now.
 ## Release Notes
 
 You can see the full change log in the [CHANGELOG.md](CHANGELOG.md) file.
-
-### 1.0.0
-
-Initial release - real-time linting support for YAML front matter in Markdown files, using the [yaml-fm-Lint](https://github.com/leneti/yaml-fm-lint) package.
