@@ -31,6 +31,7 @@ const mockArgs = {
 };
 
 const mockConfig = {
+  disabledAttributes: [],
   excludeDirs: [],
   extraExcludeDirs: [],
   extensions: [".md"],

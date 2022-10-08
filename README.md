@@ -3,7 +3,7 @@
 This is the VS Code extension for real-time YAML front matter/metada linting in Markdown files.
 The extension is using the [yaml-fm-lint](https://github.com/leneti/yaml-fm-lint) npm package to do the linting.
 
-![Example of poor front matter](./images//linter_example.png)
+![Example of poor front matter](images//linter_example.png)
 
 ## Features
 
@@ -13,7 +13,7 @@ As with the main linting package itself, this extension is quick to install and 
 
 ## Known Issues
 
-None as of now.
+Feel free to leave feedback!
 
 ## Release Notes
 

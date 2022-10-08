@@ -15,6 +15,7 @@ const mockArgs = {
     colored: false,
 };
 const mockConfig = {
+    disabledAttributes: [],
     excludeDirs: [],
     extraExcludeDirs: [],
     extensions: [".md"],
