@@ -1,6 +1,8 @@
 # yaml-fm-lint
 
-![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/leneti.yaml-fm-lint?color=success&label=Visual%20Studio%20Marketplace)
+[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/leneti.yaml-fm-lint?color=success&label=VS%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=leneti.yaml-fm-lint)
+[![NPM version](https://img.shields.io/npm/v/yaml-fm-lint?logo=npm&color=%23CB3837)](https://www.npmjs.com/package/yaml-fm-lint)
+[![GitHub repo](https://img.shields.io/badge/GitHub-yaml--fm--lint-%23181717?logo=github)](https://github.com/leneti/yaml-fm-lint)
 
 ---
 
