@@ -42,7 +42,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "yaml-fm-lint": "^1.6.1"
+    "yaml-fm-lint": "^1.6.2"
   },
   "repository": {
     "type": "git",
