@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.3] - 2022-10-13
+
+### Added
+
+- Badges to npm and GitHub
+
+## [1.2.2] - 2022-10-12
+
+### Added
+
+- New logo
+
+### Changed
+
+- Updated banner to dark mode (white text)
+- Added a badge with the current version
+
 ## [1.2.1] - 2022-09-10
 
 ### Added
