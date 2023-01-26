@@ -54,7 +54,7 @@ function getDiagnostic(
     row = 0;
     colStart = 0;
     colEnd = 3;
-    msg = `${msg}: '${err.join("', '")}'`;
+    msg = `${msg}${err[0] ? `: '${err.join("', '")}'` : ""}`;
   } else if (typeof err === "number") {
     row = err - 1;
     colStart = 0;
