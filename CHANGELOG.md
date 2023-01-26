@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.4] - 2023-01-26
+
+### Changed
+
+- Updated `yaml-fm-lint` dependency version to 1.6.5
+- Fixed a small issue with how "No yaml" error was being displayed
+
 ## [1.2.3] - 2022-10-13
 
 ### Added
