@@ -20,6 +20,12 @@
     "onLanguage:markdown"
   ],
   "main": "./dist/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    },
+    "virtualWorkspaces": false
+  },
   "scripts": {
     "bundle": "node esbuild.mjs",
     "check-types": "tsc -p ./ --noEmit",

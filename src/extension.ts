@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { lintFile } from "yaml-fm-lint";
-import { readFileSync } from "fs";
+import { configForDocument } from "./config";
 
 interface BasicErrorProps {
   row: number;
@@ -94,33 +94,23 @@ export function activate(context: vscode.ExtensionContext) {
 
     const filePath = activeEditor.document.fileName.replace(/\\/g, "/");
     const text = activeEditor.document.getText();
-    let configDir = filePath;
-    let config = { ...mockConfig };
 
-    while (configDir !== "/") {
-      try {
-        const configJs = require(`${configDir}.yaml-fm-lint.js`);
-        config = {
-          ...config,
-          ...configJs,
-        };
-        configDir = `${configDir}.yaml-fm-lint.js`;
-        break;
-      } catch (_) {
-        try {
-          config = {
-            ...config,
-            ...JSON.parse(
-              readFileSync(`${configDir}.yaml-fm-lint.json`, "utf8")
-            ),
-          };
-          configDir = `${configDir}.yaml-fm-lint.json`;
-          break;
-        } catch (_) {}
+    const { config: foundConfig, jsConfigPath } = configForDocument(
+      activeEditor.document,
+      vscode.workspace.getWorkspaceFolder(activeEditor.document.uri)?.uri
+        .fsPath
+    );
+    const config = { ...mockConfig, ...foundConfig };
+
+    if (jsConfigPath) {
+      const key = "yfl.jsConfigWarned:" + jsConfigPath;
+      if (!context.workspaceState.get(key)) {
+        void vscode.window.showWarningMessage(
+          `YAML-fm Linter no longer loads .yaml-fm-lint.js files for security reasons (found: ${jsConfigPath}). Move your settings to .yaml-fm-lint.json; custom lint functions are not supported. See https://github.com/leneti/yaml-fm-lint-ext#configuration`
+        );
+        void context.workspaceState.update(key, true);
       }
-      configDir = configDir.replace(/\/[^\/]*\/?$/, "/");
     }
-    console.log("configDir", configDir);
 
     lintFile(filePath, text, mockArgs, config).then(
       ({
@@ -139,8 +129,6 @@ export function activate(context: vscode.ExtensionContext) {
           ]);
         }
 
-        console.log("Front matter errors:", errors);
-        console.log("Front matter warnings:", warnings);
 
         if (errors.customError) {
           return diagnosticCollection.set(activeEditor.document.uri, [
