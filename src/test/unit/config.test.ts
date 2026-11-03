@@ -2,10 +2,14 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { findConfig, configForDocument } from "../../config";
+import { findConfig, configForDocument, searchDirs } from "../../config";
+
+const tmpDirs: string[] = [];
 
 function tmp(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "yfl-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "yfl-"));
+  tmpDirs.push(dir);
+  return dir;
 }
 
 function write(file: string, content: string) {
@@ -14,6 +18,12 @@ function write(file: string, content: string) {
 }
 
 suite("config", () => {
+  teardown(() => {
+    for (const dir of tmpDirs.splice(0)) {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   test("returns the nearest .yaml-fm-lint.json", () => {
     const root = tmp();
     write(path.join(root, ".yaml-fm-lint.json"), '{"requiredAttributes":["a"]}');
@@ -61,9 +71,47 @@ suite("config", () => {
   });
 
   test("findConfig is not called for non-file documents", () => {
+    const dir = tmp();
+    write(path.join(dir, ".yaml-fm-lint.json"), '{"mandatory":false}');
     assert.deepStrictEqual(
-      configForDocument({ uri: { scheme: "untitled", fsPath: "Untitled-1" } }, "/ws"),
+      configForDocument(
+        { uri: { scheme: "untitled", fsPath: path.join(dir, "doc.md") } },
+        dir
+      ),
       { config: undefined, jsConfigPath: undefined }
     );
+  });
+
+  test("does not treat a sibling with a common prefix as inside the workspace", () => {
+    const parent = tmp();
+    const ws = path.join(parent, "ws");
+    const sibling = path.join(parent, "ws2");
+    write(path.join(parent, ".yaml-fm-lint.json"), '{"mandatory":false}');
+    write(path.join(ws, "x.md"), "");
+    write(path.join(sibling, "doc.md"), "");
+    assert.strictEqual(findConfig(path.join(sibling, "doc.md"), ws).config, undefined);
+    write(path.join(sibling, ".yaml-fm-lint.json"), '{"mandatory":true}');
+    assert.deepStrictEqual(findConfig(path.join(sibling, "doc.md"), ws).config, {
+      mandatory: true,
+    });
+  });
+
+  test("a sibling named ..foo is not treated as outside via prefix", () => {
+    const parent = tmp();
+    const ws = path.join(parent, "ws");
+    write(path.join(ws, "..foo", ".yaml-fm-lint.json"), '{"mandatory":true}');
+    assert.deepStrictEqual(
+      findConfig(path.join(ws, "..foo", "doc.md"), ws).config,
+      { mandatory: true }
+    );
+  });
+
+  test("search stops at the workspace root on case-insensitive win32 paths", () => {
+    const dirs = searchDirs(
+      "c:\\users\\me\\proj\\sub",
+      "c:\\Users\\Me\\Proj",
+      path.win32
+    );
+    assert.deepStrictEqual(dirs, ["c:\\users\\me\\proj\\sub", "c:\\users\\me\\proj"]);
   });
 });

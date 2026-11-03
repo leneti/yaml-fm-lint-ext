@@ -6,9 +6,37 @@ export interface ConfigResult {
   jsConfigPath: string | undefined;
 }
 
-function isInside(root: string, target: string): boolean {
-  const rel = path.relative(root, target);
-  return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
+type PathApi = typeof path.posix;
+
+function isInside(root: string, target: string, p: PathApi = path): boolean {
+  const rel = p.relative(root, target);
+  return (
+    rel === "" ||
+    (rel !== ".." && !rel.startsWith(".." + p.sep) && !p.isAbsolute(rel))
+  );
+}
+
+/**
+ * Directories to inspect, from docDir upward, ending at root (inclusive).
+ * Uses the same containment predicate as the entry check, so it never
+ * escapes the workspace on case-insensitive paths.
+ */
+export function searchDirs(
+  docDir: string,
+  root: string,
+  p: PathApi = path
+): string[] {
+  const dirs: string[] = [];
+  let dir = p.resolve(docDir);
+  for (;;) {
+    if (!isInside(root, dir, p)) break;
+    dirs.push(dir);
+    if (p.relative(root, dir) === "") break;
+    const parent = p.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return dirs;
 }
 
 /**
@@ -27,9 +55,8 @@ export function findConfig(
       : docDir;
 
   let jsConfigPath: string | undefined;
-  let dir = path.resolve(docDir);
 
-  for (;;) {
+  for (const dir of searchDirs(docDir, root)) {
     const jsPath = path.join(dir, ".yaml-fm-lint.js");
     if (!jsConfigPath && existsSync(jsPath)) jsConfigPath = jsPath;
 
@@ -43,11 +70,6 @@ export function findConfig(
     } catch {
       // missing or invalid JSON: keep walking
     }
-
-    if (dir === root) break;
-    const parent = path.dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
   }
 
   return { config: undefined, jsConfigPath };

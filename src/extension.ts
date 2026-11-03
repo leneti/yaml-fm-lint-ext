@@ -201,7 +201,9 @@ export function activate(context: vscode.ExtensionContext) {
           ...allWarnings,
         ]);
       }
-    );
+    ).catch(() => {
+      diagnosticCollection.delete(activeEditor.document.uri);
+    });
   }
 
   function triggerUpdateDecorations(throttle = false) {
