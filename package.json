@@ -6,7 +6,7 @@
   "version": "1.2.4",
   "publisher": "leneti",
   "engines": {
-    "vscode": "^1.39.0"
+    "vscode": "^1.101.0"
   },
   "categories": [
     "Linters"
@@ -19,29 +19,29 @@
   "activationEvents": [
     "onLanguage:markdown"
   ],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "bundle": "node esbuild.mjs",
+    "check-types": "tsc -p ./ --noEmit",
+    "compile-tests": "tsc -p ./",
+    "lint": "eslint src",
+    "pretest": "npm run compile-tests && npm run bundle && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "test:unit": "mocha --ui tdd \"out/test/unit/**/*.test.js\"",
+    "vscode:prepublish": "npm run check-types && node esbuild.mjs --production"
   },
   "devDependencies": {
-    "@types/glob": "^8.0.1",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "16.x",
-    "@types/vscode": "^1.39.0",
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
-    "@vscode/test-electron": "^2.1.5",
-    "eslint": "^8.32.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.0.0",
-    "typescript": "^4.9.4"
-  },
-  "dependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "~22.20.5",
+    "@types/vscode": "~1.101.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.14.0",
+    "glob": "^14.0.3",
+    "mocha": "^12.0.3",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.1",
     "yaml-fm-lint": "^1.6.5"
   },
   "repository": {

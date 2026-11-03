@@ -82,7 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.languages.createDiagnosticCollection("yaml-fm-lint");
   context.subscriptions.push(diagnosticCollection);
 
-  let timeout: NodeJS.Timer;
+  let timeout: NodeJS.Timeout;
   let activeEditor = vscode.window.activeTextEditor;
 
   function updateDecorations() {
