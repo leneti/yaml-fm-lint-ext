@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  # Publishes an existing tag, e.g. one pushed before this workflow existed
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish (e.g. v1.3.0)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+
+    steps:
+      - name: Check tag format
+        run: '[[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]'
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.x
+
+      - name: Check tag matches package version
+        run: node -e "if ('v' + require('./package.json').version !== process.env.RELEASE_TAG) process.exit(1)"
+
+      - run: npm ci
+      # pretest compiles, bundles, lints and runs the unit tests
+      - run: xvfb-run -a npm test
+      - name: Check the package contains no node_modules
+        run: "! npx vsce ls | grep -q node_modules"
+      # Marketplace Trusted Publishing: no token, the Marketplace trusts this workflow's OIDC identity
+      - run: npx vsce publish --oidc
