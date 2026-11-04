@@ -1,17 +1,16 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6",
-        "outDir": "out",
-        "lib": [
-            "es6"
-        ],
-        "sourceMap": true,
-        "rootDir": "src",
-        "strict": false,
-        "noUnusedLocals": false
-    },
-    "exclude": [
-        "node_modules",
-    ]
+  "compilerOptions": {
+    "module": "node16",
+    "moduleResolution": "node16",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "types": ["node", "mocha"],
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "outDir": "out",
+    "sourceMap": true
+  },
+  "include": ["src"]
 }

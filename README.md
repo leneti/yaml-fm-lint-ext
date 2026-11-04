@@ -13,7 +13,16 @@ The extension is using the [yaml-fm-lint](https://github.com/leneti/yaml-fm-lint
 
 ## Features
 
-As with the main linting package itself, this extension is quick to install and configure. If there is a `.yaml-fm-lint.json` or `.yaml-fm-lint.js` configuration file in the directory of the linted file, the extension will use it.
+As with the main linting package itself, this extension is quick to install and configure. If there is a `.yaml-fm-lint.json` configuration file in the directory of the linted file (or in a parent directory), the extension will use it.
+
+## Configuration
+
+Only `.yaml-fm-lint.json` configuration files are used.
+
+- `.yaml-fm-lint.js` files are ignored and never executed. If one is found, the extension shows a one-time warning; migrate its settings to `.yaml-fm-lint.json`.
+- The search for a configuration file starts in the directory of the linted file and goes up, but stops at the workspace folder.
+- The nearest *valid* `.yaml-fm-lint.json` is used: a file that is not valid JSON, or whose top level is not an object, is skipped and the search continues upward.
+- A file that is outside any workspace folder only uses a `.yaml-fm-lint.json` in its own directory.
 
 ---
 

@@ -5,7 +5,20 @@ All notable changes to the "yaml-fm-lint" extension will be documented in this f
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.3.0] - 2026-11-04
+
+### Changed
+
+- Only `.yaml-fm-lint.json` configuration files are loaded
+- The configuration search now stops at the workspace folder
+- Requires VS Code 1.101 or newer
+- The extension is now bundled with esbuild
+- Updated `yaml-fm-lint` dependency version to 1.8.0
+
+### Security
+
+- `.yaml-fm-lint.js` configuration files are no longer executed; a one-time warning is shown instead
+- Restricted Mode (untrusted workspaces) is not supported
 
 ## [1.2.4] - 2023-01-26
 
