@@ -12,6 +12,13 @@ const result = await esbuild.build({
   external: ["vscode"],
   minify: production,
   sourcemap: !production,
+  define: {
+    "import.meta.url": "__yfl_import_meta_url",
+    "import.meta.dirname": "__dirname",
+  },
+  banner: {
+    js: 'const __yfl_import_meta_url = require("url").pathToFileURL(__filename).href;',
+  },
   logLevel: "info",
 });
 

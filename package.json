@@ -3,7 +3,7 @@
   "name": "yaml-fm-lint",
   "displayName": "YAML-fm Linter",
   "description": "A Markdown YAML front matter linter extension for VS Code",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "publisher": "leneti",
   "engines": {
     "vscode": "^1.101.0"
@@ -48,7 +48,7 @@
     "mocha": "^12.0.3",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.1",
-    "yaml-fm-lint": "^1.6.5"
+    "yaml-fm-lint": "^1.8.0"
   },
   "repository": {
     "type": "git",
@@ -57,5 +57,9 @@
   "bugs": {
     "url": "https://github.com/leneti/yaml-fm-lint-ext/issues"
   },
-  "homepage": "https://github.com/leneti/yaml-fm-lint-ext#readme"
+  "homepage": "https://github.com/leneti/yaml-fm-lint-ext#readme",
+  "overrides": {
+    "minimatch": "^11.0.4",
+    "glob": "^14.0.3"
+  }
 }
