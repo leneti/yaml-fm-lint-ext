@@ -20,6 +20,7 @@ const result = await esbuild.build({
     js: 'const __yfl_import_meta_url = require("url").pathToFileURL(__filename).href;',
   },
   logLevel: "info",
+  logOverride: { "empty-import-meta": "error" },
 });
 
 if (result.warnings.length > 0) {
